@@ -58,6 +58,13 @@ def ajustar_imagen(event=None):
     canvas.itemconfig(imagen_canvas, image=fondo_nuevo)
     canvas.fondo_nuevo = fondo_nuevo 
 
+def mostrar_participantes():
+    actual = lista.cabeza
+    print("Lista de participantes registrados")
+    while actual:
+        print(f"ID: {actual.id}, Nombre: {actual.nombre}, Correo: {actual.correo}")
+        actual = actual.siguiente
+
 # Crear la lista enlazada de participantes
 lista = ListaParticipantes()
 
@@ -101,6 +108,9 @@ btn_registro.place(x=300, y=230)
 
 btn_continuar = tk.Button(canvas, text="Continuar", font=fuente, bg="white", fg="red", width=10, command=continuar)
 btn_continuar.place(x=420, y=230)
+
+btn_mostrar = tk.Button(canvas, text="Mostrar registros", font=fuente, bg="white", fg="blue", width=15, command=mostrar_participantes)
+btn_mostrar.place(x=300, y=320)
 
 # Ajuste de la imagen al tamaño de la ventana
 ventana.update_idletasks() 
