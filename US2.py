@@ -4,17 +4,15 @@ from tkinter import ttk
 from tkcalendar import DateEntry  # pip install tkcalendar
 from PIL import Image, ImageTk
 
-intercambios = []  # Lista global para almacenar intercambios
-
 # Ventana principal
 ventana = tk.Tk()
 ventana.title("DATOS DEL INTERCAMBIO")
-ventana.geometry("800x400")
+ventana.geometry("800x500")
 
 # Imagen de fondo
 imagen_original = Image.open("images/fondo.png")
 fondo = ImageTk.PhotoImage(imagen_original)
-canvas = tk.Canvas(ventana, width=800, height=400)
+canvas = tk.Canvas(ventana, width=800, height=500)
 canvas.pack(fill="both", expand=True)
 imagen_canvas = canvas.create_image(0, 0, image=fondo, anchor="nw")
 
@@ -67,7 +65,7 @@ spin_presupuesto_min.place(x=300, y=250)
 spin_presupuesto_max = tk.Spinbox(canvas, from_=50, to=1000, increment=50, width=10, font=fuente)
 spin_presupuesto_max.place(x=400, y=250)
 
-# Guardar la información
+# Función para guardar la información
 def guardar_informacion():
     lugar = txt_lugar.get()
     fecha = cal_fecha.get()
@@ -79,48 +77,47 @@ def guardar_informacion():
     if not lugar or tematica == "Seleccionar temática":
         lbl_mensaje.config(text="Por favor, completa todos los campos obligatorios.", fg="red")
     else:
-        datos_intercambio = {
-            "Lugar": lugar,
-            "Fecha": fecha,
-            "Hora": hora,
-            "Temática": tematica,
-            "Presupuesto Mínimo": presupuesto_min,
-            "Presupuesto Máximo": presupuesto_max
-        }
-        intercambios.append(datos_intercambio)  # Guardar datos
         lbl_mensaje.config(text="¡Información guardada exitosamente!", fg="green")
-        print("Intercambio guardado:", datos_intercambio)  # Para depuración
 
-
+# Función para mostrar los registros en consola
 def mostrar_registros():
-    ventana_registros = tk.Toplevel()
-    ventana_registros.title("Registros de Intercambios")
-    ventana_registros.geometry("600x400")
+    lugar = txt_lugar.get()
+    fecha = cal_fecha.get()
+    hora = f"{combo_horas.get()}:{combo_minutos.get()}"
+    tematica = combo_tematica.get()
+    presupuesto_min = spin_presupuesto_min.get()
+    presupuesto_max = spin_presupuesto_max.get()
 
-    text_area = tk.Text(ventana_registros, font=fuente, wrap="word")
-    text_area.pack(expand=True, fill="both")
+    if not lugar or tematica == "Seleccionar temática":
+        print("Error: Faltan campos por completar.")
+    else:
+        mensaje = (
+            f"Lugar: {lugar}\n"
+            f"Fecha: {fecha}\n"
+            f"Hora: {hora}\n"
+            f"Temática: {tematica}\n"
+            f"Presupuesto: ${presupuesto_min} - ${presupuesto_max}"
+        )
+        print("Datos del intercambio:")
+        print(mensaje)
 
-    for i, intercambio in enumerate(intercambios, start=1):
-        registro = f"Intercambio {i}:\n"
-        for clave, valor in intercambio.items():
-            registro += f"{clave}: {valor}\n"
-        registro += "\n"
-        text_area.insert("end", registro)
+# Función para continuar a otra interfaz (muestra mensaje en azul)
+def continuar_interfaz():
+    lbl_mensaje.config(text="Redirigiendo a la siguiente interfaz...", fg="blue")
 
-    text_area.config(state="disabled")  # Evitar edición
-
-# Botón para guardar
+# Botones
 btn_guardar = tk.Button(canvas, text="Guardar", font=fuente, bg="white", fg="green", width=10, command=guardar_informacion)
 btn_guardar.place(x=300, y=300)
 
-# Botón para ver datos
-btn_ver_registros = tk.Button(canvas, text="Ver Registros", font=fuente, bg="white", fg="blue", width=15, command=mostrar_registros)
-btn_ver_registros.place(x=420, y=300)
+btn_mostrar = tk.Button(canvas, text="Mostrar Registros", font=fuente, bg="white", fg="blue", width=15, command=mostrar_registros)
+btn_mostrar.place(x=420, y=300)
 
+btn_continuar = tk.Button(canvas, text="Continuar", font=fuente, bg="white", fg="purple", width=10, command=continuar_interfaz)
+btn_continuar.place(x=360, y=350)
 
-# Mensaje de estado
+# Mensaje de estado ajustado
 lbl_mensaje = tk.Label(canvas, text="", font=fuente, bg="#d6f5d6")
-lbl_mensaje.place(x=300, y=350)
+lbl_mensaje.place(x=50, y=400)
 
 # Función para redimensionar la imagen al tamaño de la ventana
 def ajustar_imagen(event=None):
