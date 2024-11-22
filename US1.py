@@ -2,6 +2,14 @@ import tkinter as tk
 import tkinter.font as tkFont
 from PIL import Image, ImageTk
 
+def centrar_ventana(ventanacen, width, height):
+    wtotal = ventanacen.winfo_screenwidth()
+    htotal = ventanacen.winfo_screenheight()
+    pwidth = round(wtotal / 2 - width / 2)
+    pheight = round(htotal / 2 - height / 2)-40
+
+    #  Se lo aplicamos a la geometría de la ventana
+    ventanacen.geometry(str(width) + "x" + str(height) + "+" + str(pwidth) + "+" + str(pheight))
 # Clase para representar un nodo en la lista enlazada
 class Nodo:
     def __init__(self, id, nombre, correo):
@@ -9,6 +17,7 @@ class Nodo:
         self.nombre = nombre
         self.correo = correo
         self.siguiente = None
+
 
 # Clase para manejar la lista enlazada de participantes
 class ListaParticipantes:
@@ -53,7 +62,7 @@ def continuar():
 
 # Función para redimensionar la imagen al tamaño de la ventana
 def ajustar_imagen(event=None):
-    nueva_imagen = imagen_original.resize((ventana.winfo_width(), ventana.winfo_height())) 
+    nueva_imagen = imagen_original.resize((ventana1.winfo_width(), ventana1.winfo_height()))
     fondo_nuevo = ImageTk.PhotoImage(nueva_imagen)
     canvas.itemconfig(imagen_canvas, image=fondo_nuevo)
     canvas.fondo_nuevo = fondo_nuevo 
@@ -69,14 +78,15 @@ def mostrar_participantes():
 lista = ListaParticipantes()
 
 # Ventana principal
-ventana = tk.Tk()
-ventana.title("INTERCAMBIO NAVIDEÑO")
-ventana.geometry("800x400")
+ventana1 = tk.Tk()
+ventana1.title("INTERCAMBIO NAVIDEÑO")
+ventana1.geometry("800x400")
+centrar_ventana(ventana1, 800,400)
 
 # Imagen de fondo
 imagen_original = Image.open("images/fondo.png")
 fondo = ImageTk.PhotoImage(imagen_original)
-canvas = tk.Canvas(ventana, width=800, height=400)
+canvas = tk.Canvas(ventana1, width=800, height=400)
 canvas.pack(fill="both", expand=True)
 imagen_canvas = canvas.create_image(0, 0, image=fondo, anchor="nw")
 
@@ -106,17 +116,15 @@ lbl_mensaje.place(x=300, y=280)
 btn_registro = tk.Button(canvas, text="Registrar", font=fuente, bg="white", fg="green", width=10, command=registrar_participante)
 btn_registro.place(x=300, y=230)
 
-btn_continuar = tk.Button(canvas, text="Continuar", font=fuente, bg="white", fg="red", width=10, command=continuar)
+btn_continuar = tk.Button(canvas, text="Continuar", font=fuente, bg="white", fg="red", width=10)
 btn_continuar.place(x=420, y=230)
 
 btn_mostrar = tk.Button(canvas, text="Mostrar registros", font=fuente, bg="white", fg="blue", width=15, command=mostrar_participantes)
 btn_mostrar.place(x=300, y=320)
 
 # Ajuste de la imagen al tamaño de la ventana
-ventana.update_idletasks() 
+ventana1.update_idletasks()
 ajustar_imagen()
 
 # Redimensionamiento
-ventana.bind("<Configure>", ajustar_imagen)
-
-ventana.mainloop()
+ventana1.bind("<Configure>", ajustar_imagen)

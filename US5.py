@@ -1,16 +1,8 @@
-from tkinter import Tk, Button, font, Canvas, Label, Toplevel
+from tkinter import Button, font, Canvas, Label, Toplevel
 from tkinter.ttk import Progressbar
 from PIL import Image, ImageTk
 import random
-
-
-class Nodo:
-    def __init__(self, id, nombre, correo):
-        self.id = id
-        self.nombre = nombre
-        self.correo = correo
-        self.siguiente = None
-
+from US1 import lista
 def centrar_ventana(ventanacen, width, height):
     wtotal = ventanacen.winfo_screenwidth()
     htotal = ventanacen.winfo_screenheight()
@@ -20,7 +12,8 @@ def centrar_ventana(ventanacen, width, height):
     #  Se lo aplicamos a la geometría de la ventana
     ventanacen.geometry(str(width) + "x" + str(height) + "+" + str(pwidth) + "+" + str(pheight))
 
-ventana5 = Tk()
+ventana5 = Toplevel()
+ventana5.iconify()
 centrar_ventana(ventana5, 800, 400)
 canvas = Canvas(ventana5, width=800, height=400)
 canvas.pack(fill="both", expand=True)
@@ -101,7 +94,7 @@ def on_progress_complete(progress_bar, ventana55):
     photo_resized_fin = ImageTk.PhotoImage(resized_image_fin)
     canvasfinal.create_image(0, 0, image=photo_resized_fin, anchor="nw")
     canvasfinal.image = photo_resized_fin
-    btn_final = Button(ventana_final, text="Salir", command=ventana5.destroy, bg='#660504', fg='gray',
+    btn_final = Button(ventana_final, text="Salir", command=ventana5.master.destroy, bg='#660504', fg='gray',
                        font=("Comic Sans MS", 14), bd=0, relief="flat")
     btn_final.place(x=325, y=295)
     realizar_sorteo()
@@ -139,23 +132,23 @@ def rotate_image():
     ventana5.after(20, rotate_image)
 
 def realizar_sorteo():
-    nodo1 = Nodo(1, 'Elias', 'eliasct72@1')
-    nodo2 = Nodo(2, 'Rabo', 'rabo72@1')
-    nodo3 = Nodo(3, 'Max', 'Max@1')
-    nodo4 = Nodo(4, 'Juan', 'juan@2')
-    lista = [nodo1, nodo2, nodo3, nodo4]
-    for i in range(len(lista)):
-        ind_aleatorio= random.randint(0, len(lista) - 1)
-        temporal = lista[i]
-        lista[i] = lista[ind_aleatorio]
-        lista[ind_aleatorio] = temporal
+    lista_participantes = []
+    elemento = lista.cabeza
+    for i in range (lista.contar_participantes()):
+        lista_participantes.append(elemento)
+        elemento=elemento.siguiente
 
-    for j in range(len(lista)):
-        if j == len(lista)-1:
-            print("El usuario " + str(lista[j].nombre)+ ", le regala a " + str(lista[0].nombre))
+    for i in range(len(lista_participantes)):
+        ind_aleatorio= random.randint(0, len(lista_participantes) - 1)
+        temporal = lista_participantes[i]
+        lista_participantes[i] = lista_participantes[ind_aleatorio]
+        lista_participantes[ind_aleatorio] = temporal
+
+    for j in range(len(lista_participantes)):
+        if j == len(lista_participantes)-1:
+            print("El usuario " + str(lista_participantes[j].nombre)+ ", le regala a " + str(lista_participantes[0].nombre))
         else:
-            print("El usuario " + str(lista[j].nombre)+ ", le regala a " + str(lista[j+1].nombre))
+            print("El usuario " + str(lista_participantes[j].nombre)+ ", le regala a " + str(lista_participantes[j+1].nombre))
 
 rotate_image.angle = 0
 rotate_image()
-ventana5.mainloop()

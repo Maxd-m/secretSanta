@@ -3,16 +3,26 @@ import tkinter.font as tkFont
 from tkinter import ttk
 from tkcalendar import DateEntry  # pip install tkcalendar
 from PIL import Image, ImageTk
+def centrar_ventana(ventanacen, width, height):
+    wtotal = ventanacen.winfo_screenwidth()
+    htotal = ventanacen.winfo_screenheight()
+    pwidth = round(wtotal / 2 - width / 2)
+    pheight = round(htotal / 2 - height / 2)-40
+
+    #  Se lo aplicamos a la geometría de la ventana
+    ventanacen.geometry(str(width) + "x" + str(height) + "+" + str(pwidth) + "+" + str(pheight))
 
 # Ventana principal
-ventana = tk.Tk()
-ventana.title("DATOS DEL INTERCAMBIO")
-ventana.geometry("800x500")
+ventana2 = tk.Toplevel()
+centrar_ventana(ventana2, 800, 500)
+ventana2.iconify()
+ventana2.title("DATOS DEL INTERCAMBIO")
+ventana2.geometry("800x500")
 
 # Imagen de fondo
 imagen_original = Image.open("images/fondo.png")
 fondo = ImageTk.PhotoImage(imagen_original)
-canvas = tk.Canvas(ventana, width=800, height=500)
+canvas = tk.Canvas(ventana2, width=800, height=500)
 canvas.pack(fill="both", expand=True)
 imagen_canvas = canvas.create_image(0, 0, image=fondo, anchor="nw")
 
@@ -101,9 +111,6 @@ def mostrar_registros():
         print("Datos del intercambio:")
         print(mensaje)
 
-# Función para continuar a otra interfaz (muestra mensaje en azul)
-def continuar_interfaz():
-    lbl_mensaje.config(text="Redirigiendo a la siguiente interfaz...", fg="blue")
 
 # Botones
 btn_guardar = tk.Button(canvas, text="Guardar", font=fuente, bg="white", fg="green", width=10, command=guardar_informacion)
@@ -112,8 +119,8 @@ btn_guardar.place(x=300, y=300)
 btn_mostrar = tk.Button(canvas, text="Mostrar Registros", font=fuente, bg="white", fg="blue", width=15, command=mostrar_registros)
 btn_mostrar.place(x=420, y=300)
 
-btn_continuar = tk.Button(canvas, text="Continuar", font=fuente, bg="white", fg="purple", width=10, command=continuar_interfaz)
-btn_continuar.place(x=360, y=350)
+btn_continuar2 = tk.Button(canvas, text="Continuar", font=fuente, bg="white", fg="purple", width=10)
+btn_continuar2.place(x=360, y=350)
 
 # Mensaje de estado ajustado
 lbl_mensaje = tk.Label(canvas, text="", font=fuente, bg="#d6f5d6")
@@ -121,16 +128,15 @@ lbl_mensaje.place(x=50, y=400)
 
 # Función para redimensionar la imagen al tamaño de la ventana
 def ajustar_imagen(event=None):
-    nueva_imagen = imagen_original.resize((ventana.winfo_width(), ventana.winfo_height())) 
+    nueva_imagen = imagen_original.resize((ventana2.winfo_width(), ventana2.winfo_height()))
     fondo_nuevo = ImageTk.PhotoImage(nueva_imagen)
     canvas.itemconfig(imagen_canvas, image=fondo_nuevo)
     canvas.fondo_nuevo = fondo_nuevo 
 
 # Ajuste de la imagen al tamaño de la ventana
-ventana.update_idletasks() 
+ventana2.update_idletasks()
 ajustar_imagen()
 
 # Redimensionamiento
-ventana.bind("<Configure>", ajustar_imagen)
+ventana2.bind("<Configure>", ajustar_imagen)
 
-ventana.mainloop()

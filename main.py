@@ -1,16 +1,21 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
+import US1, US2, US5
+def continuar_interfaz():
+    US5.ventana5.deiconify()
+    US2.ventana2.iconify()
+def continuar():
+    if US1.lista.contar_participantes() >= 3:
+        US1.lbl_mensaje.config(text="Avanzando a la siguiente pantalla", fg="blue")
+        US2.ventana2.deiconify()
+        US1.ventana1.iconify()
+        # Aquí se puede implementar la lógica para cambiar a la siguiente pantalla
+    else:
+        US1.lbl_mensaje.config(text="Faltan participantes por registrar", fg="red")
 def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    US1.btn_continuar.config(text="Continuar", command=continuar)
+    US2.btn_continuar2.config(text="Continuar", command=continuar_interfaz)
+    print(f'Hi, {name}')
+    US1.ventana1.mainloop()
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
