@@ -1,4 +1,4 @@
-import US1, US2, US5
+import US1, US2, US5, US6
 def continuar_interfaz():
     US5.ventana5.deiconify()
     US2.ventana2.iconify()
