@@ -3,6 +3,7 @@ from tkinter.ttk import Progressbar
 from PIL import Image, ImageTk
 import random
 from US1 import lista
+from US6 import tree
 def centrar_ventana(ventanacen, width, height):
     wtotal = ventanacen.winfo_screenwidth()
     htotal = ventanacen.winfo_screenheight()
@@ -16,7 +17,7 @@ ventana5 = Toplevel()
 ventana5.iconify()
 centrar_ventana(ventana5, 800, 400)
 canvas = Canvas(ventana5, width=800, height=400)
-canvas.pack(fill="both", expand=True)
+canvas.pack(fill="both", expand=True, ipadx=10, ipady=10)
 image = Image.open('images/christmas.png')
 imagec = Image.open('images/carga.png')
 imagec = ImageTk.PhotoImage(imagec.resize((600,300)))
@@ -35,6 +36,7 @@ def resize_image(event):
     canvas.image = photo_resized
 
 def open_window():
+    ventana5.iconify()
     ventana55 = Toplevel(ventana5)
     ventana55.grab_set_global()
     ventana55.grab_set()
@@ -96,8 +98,12 @@ def on_progress_complete(progress_bar, ventana55):
     canvasfinal.image = photo_resized_fin
     btn_final = Button(ventana_final, text="Salir", command=ventana5.master.destroy, bg='#660504', fg='gray',
                        font=("Comic Sans MS", 14), bd=0, relief="flat")
-    btn_final.place(x=325, y=295)
+    btn_final.place(x=220, y=296)
+    btn_resultados= Button(ventana_final, text="Resultados", bg='#126a4c', fg='lime green',
+                       font=("Comic Sans MS", 12), bd=0, relief="flat")
+    btn_resultados.place(x=403, y=297)
     realizar_sorteo()
+
 
 
 ventana5.bind('<Configure>', resize_image)
@@ -131,8 +137,8 @@ def rotate_image():
     lruleta.image = rotated_photor
     ventana5.after(20, rotate_image)
 
+lista_participantes = []
 def realizar_sorteo():
-    lista_participantes = []
     elemento = lista.cabeza
     for i in range (lista.contar_participantes()):
         lista_participantes.append(elemento)
@@ -146,8 +152,10 @@ def realizar_sorteo():
 
     for j in range(len(lista_participantes)):
         if j == len(lista_participantes)-1:
+            tree.insert("", "end", values=(lista_participantes[j].nombre, lista_participantes[0].nombre))
             print("El usuario " + str(lista_participantes[j].nombre)+ ", le regala a " + str(lista_participantes[0].nombre))
         else:
+            tree.insert("", "end", values=(lista_participantes[j].nombre, lista_participantes[j+1].nombre))
             print("El usuario " + str(lista_participantes[j].nombre)+ ", le regala a " + str(lista_participantes[j+1].nombre))
 
 rotate_image.angle = 0
