@@ -160,3 +160,4 @@ def realizar_sorteo():
 
 rotate_image.angle = 0
 rotate_image()
+#wa

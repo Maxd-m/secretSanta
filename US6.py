@@ -67,7 +67,7 @@ tree.column("Participante", width=200)
 tree.column("Regala a", width=200)
 tree.place(x=195, y=120)
 
-
+#wa
 scrollbar_y = Scrollbar(frame, orient="vertical", command=tree.yview)
 scrollbar_y.pack(side="right", fill="y")
 scrollbar_x = Scrollbar(frame, orient="horizontal", command=tree.xview)
