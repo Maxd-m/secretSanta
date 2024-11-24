@@ -1,4 +1,4 @@
-from tkinter import Button, font, Canvas, Label, Toplevel, messagebox
+from tkinter import Button, font, Canvas, Label, Toplevel
 from tkinter.ttk import Progressbar
 from PIL import Image, ImageTk
 import random
@@ -98,23 +98,11 @@ def on_progress_complete(progress_bar, ventana55):
     canvasfinal.image = photo_resized_fin
     btn_final = Button(ventana_final, text="Salir", command=ventana5.master.destroy, bg='#660504', fg='gray',
                        font=("Comic Sans MS", 14), bd=0, relief="flat")
-    btn_final.place(x=325, y=295)
-    btn_enviar = Button(ventana_final, text="Enviar Correos", command=enviar_correos,
-                        bg='#3f900a', fg='white', font=("Comic Sans MS", 14),
-                        bd=0, relief="flat")
-    btn_enviar.place(x=285, y=230)
+    btn_final.place(x=220, y=296)
+    btn_resultados= Button(ventana_final, text="Resultados", bg='#126a4c', fg='lime green',
+                       font=("Comic Sans MS", 12), bd=0, relief="flat")
+    btn_resultados.place(x=403, y=297)
     realizar_sorteo()
-
-def enviar_correos():
-    print("Enviando correos a los participantes...")
-    # Aquí agregar la lógica para enviar correos (algoritmo US7)
-    flg = False  #bandera que indica si se pudieron enviar los correos
-
-    if flg:
-        messagebox.showinfo("Enviar Correos", "Los correos se han enviado correctamente a los participantes.")
-    else:
-        messagebox.showerror("Enviar Correos", "Los correos no pudieron ser enviados.")
-
 
 
 
@@ -149,8 +137,8 @@ def rotate_image():
     lruleta.image = rotated_photor
     ventana5.after(20, rotate_image)
 
+lista_participantes = []
 def realizar_sorteo():
-    lista_participantes = []
     elemento = lista.cabeza
     for i in range (lista.contar_participantes()):
         lista_participantes.append(elemento)

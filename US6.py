@@ -1,5 +1,5 @@
 from tkinter.ttk import Treeview, Style
-from tkinter import Toplevel, font, Canvas, Button, Scrollbar, Frame
+from tkinter import Toplevel, font, Canvas, Button, Scrollbar, Frame, messagebox
 from PIL import Image, ImageTk
 
 from US1 import lista
@@ -32,8 +32,19 @@ ventana6.geometry(f"{ventana6.winfo_width()}x{ventana6.winfo_height()}")
 btn_regresar_ventana_55 = Button(ventana6, text="Regresar", bg='#660504', fg='gray',
                    font=("Comic Sans MS", 14), bd=0, relief="flat")
 btn_regresar_ventana_55.place(x=240, y=297)
+
+def enviar_correos():
+    print("Enviando correos a los participantes...")
+    # Aquí agregar la lógica para enviar correos (algoritmo US7)
+    flg = False  #bandera que indica si se pudieron enviar los correos
+
+    if flg:
+        messagebox.showinfo("Enviar Correos", "Los correos se han enviado correctamente a los participantes.")
+    else:
+        messagebox.showerror("Enviar Correos", "Los correos no pudieron ser enviados.")
+
 btn_enviar = Button(ventana6, text="Enviar correos", bg='#126a4c', fg='lime green',
-                   font=("Comic Sans MS", 11), bd=0, relief="flat")
+                   font=("Comic Sans MS", 11), bd=0, command=enviar_correos,relief="flat")
 btn_enviar.place(x=455, y=302)
 style = Style()
 style.configure("Treeview",
