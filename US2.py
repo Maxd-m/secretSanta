@@ -89,6 +89,25 @@ def guardar_informacion():
     else:
         lbl_mensaje.config(text="¡Información guardada exitosamente!", fg="green")
 
+# Función para obtener los datos del intercambio
+def obtener_datos_intercambio():
+    lugar = txt_lugar.get()
+    fecha = cal_fecha.get()
+    hora = f"{combo_horas.get()}:{combo_minutos.get()}"
+    tematica = combo_tematica.get()
+    presupuesto_min = spin_presupuesto_min.get()
+    presupuesto_max = spin_presupuesto_max.get()
+    
+    return {
+        "lugar": lugar,
+        "fecha": fecha,
+        "hora": hora,
+        "tematica": tematica,
+        "presupuesto_min": presupuesto_min,
+        "presupuesto_max": presupuesto_max,
+    }
+
+
 # Función para mostrar los registros en consola
 def mostrar_registros():
     lugar = txt_lugar.get()

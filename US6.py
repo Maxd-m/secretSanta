@@ -1,51 +1,105 @@
 from tkinter.ttk import Treeview, Style
 from tkinter import Toplevel, font, Canvas, Button, Scrollbar, Frame, messagebox
 from PIL import Image, ImageTk
+from tkinter import Toplevel, Canvas, Label, font, ttk, messagebox
+from tkinter.ttk import Treeview
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import re
+from US2 import obtener_datos_intercambio
 
-from US1 import lista
 
-def centrar_ventana(ventanacen, width, height):
-    wtotal = ventanacen.winfo_screenwidth()
-    htotal = ventanacen.winfo_screenheight()
-    pwidth = round(wtotal / 2 - width / 2)
-    pheight = round(htotal / 2 - height / 2)-40
+# Configuración del servidor SMTP (asegúrate de modificar esto con tu información)
+SMTP_SERVER = 'smtp.gmail.com'
+SMTP_PORT = 587
+EMAIL_ADDRESS = '21030149@itcelaya.edu.mx'  # Cambia esto por tu correo electrónico
+EMAIL_PASSWORD = 'pahtketdlucfidjq'       # Cambia esto por tu contraseña
 
-    #  Se lo aplicamos a la geometría de la ventana
-    ventanacen.geometry(str(width) + "x" + str(height) + "+" + str(pwidth) + "+" + str(pheight))
-def resize_image(event):
-    new_width = event.width
-    new_height = event.height
-    resized_image = image.resize((new_width, new_height))
-    photo_resized = ImageTk.PhotoImage(resized_image)
-    canvas.create_image(0, 0, image=photo_resized, anchor="nw")
-    canvas.image = photo_resized
-
-fuentet = font.Font(family="Comic Sans MS", size=20)
 ventana6 = Toplevel()
-centrar_ventana(ventana6, 800, 400)
-canvas = Canvas(ventana6, width=800, height=400)
+ventana6.title("Resultados del Sorteo")
+ventana6.iconify()  # La ventana comienza oculta
+fuente = font.Font(family="Comic Sans MS", size=14)
+ventana6.geometry("700x400")
+
+# Fondo de la ventana
+canvas = Canvas(ventana6, width=700, height=400, bg='#025136')
 canvas.pack(fill="both", expand=True)
-image = Image.open('images/resul.png')
-ventana6.bind('<Configure>', resize_image)
-ventana6.update_idletasks()
-ventana6.geometry(f"{ventana6.winfo_width()}x{ventana6.winfo_height()}")
-btn_regresar_ventana_55 = Button(ventana6, text="Regresar", bg='#660504', fg='gray',
-                   font=("Comic Sans MS", 14), bd=0, relief="flat")
-btn_regresar_ventana_55.place(x=240, y=297)
+
+titulo = Label(ventana6, text="Resultados del Sorteo", font=("Comic Sans MS", 18, "bold"), bg='#126a4c', fg='white')
+titulo.pack(pady=10)
+
+# Configuración de la tabla Treeview
+tree = Treeview(ventana6, columns=("Participante", "Pareja"), show="headings", height=15)
+tree.heading("Participante", text="Participante")
+tree.heading("Pareja", text="Pareja")
+tree.column("Participante", width=200, anchor="center")
+tree.column("Pareja", width=200, anchor="center")
+tree.pack(pady=20)
+
+import re
+
+# Función para validar una dirección de correo electrónico
+def es_correo_valido(correo):
+    correo = correo.strip()  # Eliminar espacios al principio y al final
+    patron = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    if re.match(patron, correo):
+        return True
+    return False
 
 def enviar_correos():
-    print("Enviando correos a los participantes...")
-    # Aquí agregar la lógica para enviar correos (algoritmo US7)
-    flg = False  #bandera que indica si se pudieron enviar los correos
+    try:
+        datos_intercambio = obtener_datos_intercambio()
+        lugar = datos_intercambio["lugar"]
+        fecha = datos_intercambio["fecha"]
+        hora = datos_intercambio["hora"]
+        tematica = datos_intercambio["tematica"]
+        presupuesto_min = datos_intercambio["presupuesto_min"]
+        presupuesto_max = datos_intercambio["presupuesto_max"]
 
-    if flg:
-        messagebox.showinfo("Enviar Correos", "Los correos se han enviado correctamente a los participantes.")
-    else:
-        messagebox.showerror("Enviar Correos", "Los correos no pudieron ser enviados.")
+        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+        server.starttls()  # Inicia conexión segura
+        server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)  # Inicia sesión
+        
+        # Recorre los datos de la tabla y envía un correo a cada participante
+        for item in tree.get_children():
+            participante, pareja = tree.item(item, "values")
+            
+            # Agregar depuración para ver el correo
+            print(f"Validando correo: {participante}")
+            
+            # Validar si el correo del participante es válido
+            if not es_correo_valido(participante):
+                messagebox.showerror("Error", f"La dirección de correo '{participante}' no es válida.")
+                return  # Detener la ejecución si encontramos un correo inválido
+            
+            # Construcción del mensaje
+            subject = "Resultado del Sorteo"
+            body = (f"Hola {participante},\n\n"
+                    f"Te informamos que tu pareja asignada en el sorteo es: {pareja}.\n\n"
+                    f"Datos del intercambio:\n"
+                    f"- Lugar: {lugar}\n"
+                    f"- Fecha: {fecha}\n"
+                    f"- Hora: {hora}\n"
+                    f"- Temática: {tematica}\n"
+                    f"- Presupuesto: ${presupuesto_min} - ${presupuesto_max}\n\n"
+                    f"¡Felicidades y que lo disfrutes!\n\n"
+                    f"Atentamente,\nEl equipo organizador.")
+            
+            message = MIMEMultipart()
+            message["From"] = EMAIL_ADDRESS
+            message["To"] = participante
+            message["Subject"] = subject
+            message.attach(MIMEText(body, "plain"))
+            
+            server.send_message(message)
+        
+        server.quit()  # Cierra la conexión con el servidor SMTP
+        messagebox.showinfo("Éxito", "Los correos han sido enviados con éxito.")
+    
+    except Exception as e:
+        messagebox.showerror("Error", f"No se pudieron enviar los correos.\n{str(e)}")
 
-btn_enviar = Button(ventana6, text="Enviar correos", bg='#126a4c', fg='lime green',
-                   font=("Comic Sans MS", 11), bd=0, command=enviar_correos,relief="flat")
-btn_enviar.place(x=455, y=302)
 style = Style()
 style.configure("Treeview",
                 font=("Arial", 15),

@@ -1,17 +1,17 @@
-from tkinter import Button, font, Canvas, Label, Toplevel
-from tkinter.ttk import Progressbar
+from tkinter import Button, font, Canvas, Label, Toplevel, messagebox
+from tkinter.ttk import Progressbar, Treeview
 from PIL import Image, ImageTk
 import random
 from US1 import lista
-from US6 import tree
+from US6 import tree, ventana6, enviar_correos
+from US6 import ventana6
+
 def centrar_ventana(ventanacen, width, height):
     wtotal = ventanacen.winfo_screenwidth()
     htotal = ventanacen.winfo_screenheight()
     pwidth = round(wtotal / 2 - width / 2)
-    pheight = round(htotal / 2 - height / 2)-40
-
-    #  Se lo aplicamos a la geometría de la ventana
-    ventanacen.geometry(str(width) + "x" + str(height) + "+" + str(pwidth) + "+" + str(pheight))
+    pheight = round(htotal / 2 - height / 2) - 40
+    ventanacen.geometry(f"{width}x{height}+{pwidth}+{pheight}")
 
 ventana5 = Toplevel()
 ventana5.iconify()
@@ -20,7 +20,7 @@ canvas = Canvas(ventana5, width=800, height=400)
 canvas.pack(fill="both", expand=True, ipadx=10, ipady=10)
 image = Image.open('images/christmas.png')
 imagec = Image.open('images/carga.png')
-imagec = ImageTk.PhotoImage(imagec.resize((600,300)))
+imagec = ImageTk.PhotoImage(imagec.resize((600, 300)))
 fuente = font.Font(family="Comic Sans MS", size=12)
 fuentet = font.Font(family="Comic Sans MS", size=20)
 imagere = Image.open('images/ruleta.png')
@@ -51,7 +51,7 @@ def open_window():
     progress_bar = Progressbar(ventana55, length=200, mode='determinate')
     progress_bar.place(x=193, y=250)
     start_progress(progress_bar, ventana55)
-    carg= Label(ventana55, text="Cargando...", font=fuentet, bg='#660504', fg='gray')
+    carg = Label(ventana55, text="Cargando...", font=fuentet, bg='#660504', fg='gray')
     carg.place(x=225, y=40)
     lrul = Label(ventana55, image=photore, bg='#025136')
     lrul.place(x=220, y=90)
@@ -59,8 +59,8 @@ def open_window():
     def rotate_image():
         current_angle = (rotate_image.angle + 1) % 360
         rotate_image.angle = current_angle
-        rotated_imager = imagere.rotate(current_angle)  # Rotar la imagen
-        rotated_photor = ImageTk.PhotoImage(rotated_imager)  # Convertir la imagen a PhotoImage
+        rotated_imager = imagere.rotate(current_angle)
+        rotated_photor = ImageTk.PhotoImage(rotated_imager)
         lrul.config(image=rotated_photor)
         lrul.image = rotated_photor
         ventana55.after(1, rotate_image)
@@ -74,8 +74,8 @@ def start_progress(progress_bar, ventana55):
 
 def update_progress(progress_bar, ventana55):
     if progress_bar['value'] < 100:
-        progress_bar['value'] += 1  # Aumentar el valor de la barra de progreso
-        ventana55.after(100, update_progress, progress_bar, ventana55)  # Repetir cada 100ms
+        progress_bar['value'] += 1
+        ventana55.after(100, update_progress, progress_bar, ventana55)
     else:
         on_progress_complete(progress_bar, ventana55)
 
@@ -99,11 +99,23 @@ def on_progress_complete(progress_bar, ventana55):
     btn_final = Button(ventana_final, text="Salir", command=ventana5.master.destroy, bg='#660504', fg='gray',
                        font=("Comic Sans MS", 14), bd=0, relief="flat")
     btn_final.place(x=220, y=296)
-    btn_resultados= Button(ventana_final, text="Resultados", bg='#126a4c', fg='lime green',
-                       font=("Comic Sans MS", 12), bd=0, relief="flat")
+
+    # Botón de Resultados
+    btn_resultados = Button(ventana_final, text="Resultados", bg='#126a4c', fg='lime green',
+                            font=("Comic Sans MS", 12), bd=0, relief="flat", command=mostrar_resultados)
     btn_resultados.place(x=403, y=297)
+
+    # Botón para enviar correos
+    btn_enviar_correos = Button(ventana_final, text="Enviar Correos", bg='#126a4c', fg='white',
+                                font=("Comic Sans MS", 12), bd=0, relief="flat", command=enviar_correos)
+    btn_enviar_correos.place(x=300, y=350)
+
     realizar_sorteo()
 
+def mostrar_resultados():
+    """Muestra la ventana de US6 que estaba oculta."""
+    ventana6.deiconify()  # Vuelve visible la ventana de US6
+    ventana5.iconify()    # Opcional: Minimiza la ventana actual si quieres
 
 
 ventana5.bind('<Configure>', resize_image)
@@ -112,27 +124,17 @@ ventana5.geometry(f"{ventana5.winfo_width()}x{ventana5.winfo_height()}")
 btn_sortear = Button(ventana5, text="Sortear", font=fuente, command=open_window, bg='#660504', fg='gray')
 btn_sortear.place(x=360, y=310)
 
-
-imagee = Image.open('images/exit.png')
-imagee = imagee.resize((100, 100))
-photoe = ImageTk.PhotoImage(imagee)
-#btn_back = Button(ventana5, width=100, height=100,image=photoe, bd=0
-                  #,compound="center", bg='#660504',relief="flat", fg='gray')
-#btn_back.place(x=0, y=0)
-
 imager = Image.open('images/ruleta.png')
 imager = imager.resize((200, 200))
 photor = ImageTk.PhotoImage(imager)
-lruleta=Label(ventana5, image=photor, bg='#660504')
+lruleta = Label(ventana5, image=photor, bg='#660504')
 lruleta.place(x=300, y=100)
-
-
 
 def rotate_image():
     current_angle = (rotate_image.angle + 1) % 360
     rotate_image.angle = current_angle
-    rotated_imager = imager.rotate(current_angle)  # Rotar la imagen
-    rotated_photor = ImageTk.PhotoImage(rotated_imager)  # Convertir la imagen a PhotoImage
+    rotated_imager = imager.rotate(current_angle)
+    rotated_photor = ImageTk.PhotoImage(rotated_imager)
     lruleta.config(image=rotated_photor)
     lruleta.image = rotated_photor
     ventana5.after(20, rotate_image)
@@ -140,24 +142,21 @@ def rotate_image():
 lista_participantes = []
 def realizar_sorteo():
     elemento = lista.cabeza
-    for i in range (lista.contar_participantes()):
+    for i in range(lista.contar_participantes()):
         lista_participantes.append(elemento)
-        elemento=elemento.siguiente
+        elemento = elemento.siguiente
 
     for i in range(len(lista_participantes)):
-        ind_aleatorio= random.randint(0, len(lista_participantes) - 1)
+        ind_aleatorio = random.randint(0, len(lista_participantes) - 1)
         temporal = lista_participantes[i]
         lista_participantes[i] = lista_participantes[ind_aleatorio]
         lista_participantes[ind_aleatorio] = temporal
 
     for j in range(len(lista_participantes)):
-        if j == len(lista_participantes)-1:
-            tree.insert("", "end", values=(lista_participantes[j].nombre, lista_participantes[0].nombre))
-            print("El usuario " + str(lista_participantes[j].nombre)+ ", le regala a " + str(lista_participantes[0].nombre))
+        if j == len(lista_participantes) - 1:
+            tree.insert("", "end", values=(lista_participantes[j].correo, lista_participantes[0].correo))
         else:
-            tree.insert("", "end", values=(lista_participantes[j].nombre, lista_participantes[j+1].nombre))
-            print("El usuario " + str(lista_participantes[j].nombre)+ ", le regala a " + str(lista_participantes[j+1].nombre))
+            tree.insert("", "end", values=(lista_participantes[j].correo, lista_participantes[j + 1].correo))
 
 rotate_image.angle = 0
 rotate_image()
-#wa
