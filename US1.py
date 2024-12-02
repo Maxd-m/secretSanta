@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkFont
 from PIL import Image, ImageTk
+import re
 
 def centrar_ventana(ventanacen, width, height):
     wtotal = ventanacen.winfo_screenwidth()
@@ -38,19 +39,30 @@ class ListaParticipantes:
             contador += 1
             actual = actual.siguiente
         return contador
+    
+def validar_correo(correo):
+    """Verificar si el correo tiene el formato adecuado."""
+    patron = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return re.match(patron, correo)
 
 # Función para registrar un participante
 def registrar_participante():
     nombre = txt_nombre.get().strip()
     correo = txt_correo.get().strip()
 
-    if nombre and correo:  # Validamos que los campos no estén vacíos
+    if not nombre or not correo:
+        lbl_mensaje.config(text="Faltan campos por llenar", fg="red")
+        ventana1.after(2500, lambda: lbl_mensaje.config(text="")) 
+    elif not validar_correo(correo):
+        lbl_mensaje.config(text="Correo inválido", fg="red")
+        ventana1.after(2500, lambda: lbl_mensaje.config(text=""))
+    else:
         lista.agregar_participante(nombre, correo)
         lbl_mensaje.config(text="Registro exitoso", fg="green")
-        txt_nombre.delete(0, tk.END)  # Limpiar campo de texto
+        txt_nombre.delete(0, tk.END)
         txt_correo.delete(0, tk.END)
-    else:
-        lbl_mensaje.config(text="Faltan campos por llenar", fg="red")
+        ventana1.after(2500, lambda: lbl_mensaje.config(text="")) 
+
 
 # Función para continuar
 def continuar():
@@ -59,6 +71,7 @@ def continuar():
         # Aquí se puede implementar la lógica para cambiar a la siguiente pantalla
     else:
         lbl_mensaje.config(text="Faltan participantes por registrar", fg="red")
+        ventana1.after(2500, lambda: lbl_mensaje.config(text=""))
 
 # Función para redimensionar la imagen al tamaño de la ventana
 def ajustar_imagen(event=None):
@@ -94,22 +107,22 @@ imagen_canvas = canvas.create_image(0, 0, image=fondo, anchor="nw")
 fuente = tkFont.Font(family="Comic Sans MS", size=12)
 
 # Título
-lbl_titulo = tk.Label(canvas, text="INTERCAMBIO NAVIDEÑO", font=("Comic Sans MS", 16), fg="red", bg="#d6f5d6")
+lbl_titulo = tk.Label(canvas, text="INTERCAMBIO NAVIDEÑO", font=("Comic Sans MS", 16), fg="red", bg="#2F372D")
 lbl_titulo.place(x=300, y=20)
 
 # Campos de texto
-lbl_nombre = tk.Label(canvas, text="Nombre:", font=fuente, bg="#d6f5d6")
+lbl_nombre = tk.Label(canvas, text="Nombre:", font=fuente, fg="white", bg="#2F372D")
 lbl_nombre.place(x=300, y=80)
 txt_nombre = tk.Entry(canvas, font=fuente, width=30)
 txt_nombre.place(x=300, y=110)
 
-lbl_correo = tk.Label(canvas, text="Correo:", font=fuente, bg="#d6f5d6")
+lbl_correo = tk.Label(canvas, text="Correo:", font=fuente,fg="white", bg="#2F372D")
 lbl_correo.place(x=300, y=150)
 txt_correo = tk.Entry(canvas, font=fuente, width=30)
 txt_correo.place(x=300, y=180)
 
 # Mensaje de estado
-lbl_mensaje = tk.Label(canvas, text="", font=fuente, bg="#d6f5d6")
+lbl_mensaje = tk.Label(canvas, text="", font=fuente, bg="#2F372D")
 lbl_mensaje.place(x=300, y=280)
 
 # Botones de Registrar y Continuar

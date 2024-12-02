@@ -22,7 +22,7 @@ def print_hi(name):
     # Oculta todas las ventanas secundarias al iniciar
     US2.ventana2.withdraw()
     US5.ventana5.withdraw()
-    US6.ventana6.withdraw()  # Oculta ventana 6
+    US6.ventana6.withdraw()
 
     print(f'Hi, {name}')
     US1.ventana1.mainloop()  # Inicia el bucle principal de ventana 1

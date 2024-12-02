@@ -30,29 +30,29 @@ imagen_canvas = canvas.create_image(0, 0, image=fondo, anchor="nw")
 fuente = tkFont.Font(family="Comic Sans MS", size=12)
 
 # Título
-lbl_titulo = tk.Label(canvas, text="INTERCAMBIO NAVIDEÑO", font=("Comic Sans MS", 16), fg="red", bg="#d6f5d6")
+lbl_titulo = tk.Label(canvas, text="INTERCAMBIO NAVIDEÑO", font=("Comic Sans MS", 16), fg="red", bg="#2F372D")
 lbl_titulo.place(x=300, y=10)
 
 # Etiquetas y widgets
-lbl_lugar = tk.Label(canvas, text="Lugar del intercambio:", font=fuente, bg="#d6f5d6")
+lbl_lugar = tk.Label(canvas, text="Lugar del intercambio:", font=fuente, bg="#2F372D", fg="white")
 lbl_lugar.place(x=50, y=50)
 txt_lugar = tk.Entry(canvas, font=fuente, width=40)
 txt_lugar.place(x=300, y=50)
 
-lbl_fecha = tk.Label(canvas, text="Fecha del intercambio:", font=fuente, bg="#d6f5d6")
+lbl_fecha = tk.Label(canvas, text="Fecha del intercambio:", font=fuente, bg="#2F372D", fg="white")
 lbl_fecha.place(x=50, y=100)
 cal_fecha = DateEntry(canvas, font=fuente, width=18, background="darkred", foreground="white", borderwidth=2)
 cal_fecha.place(x=300, y=100)
 
 # Hora
-lbl_hora = tk.Label(canvas, text="Hora (HH:MM):", font=fuente, bg="#d6f5d6")
+lbl_hora = tk.Label(canvas, text="Hora (HH:MM):", font=fuente, bg="#2F372D", fg="white")
 lbl_hora.place(x=50, y=150)
 
 combo_horas = ttk.Combobox(canvas, values=[f"{i:02}" for i in range(24)], font=fuente, width=5, state="readonly")
 combo_horas.set("HH")
 combo_horas.place(x=300, y=150)
 
-lbl_dos_puntos = tk.Label(canvas, text=":", font=fuente, bg="#d6f5d6")
+lbl_dos_puntos = tk.Label(canvas, text=":", font=fuente, bg="#2F372D", fg="white")
 lbl_dos_puntos.place(x=360, y=150)
 
 combo_minutos = ttk.Combobox(canvas, values=[f"{i:02}" for i in range(60)], font=fuente, width=5, state="readonly")
@@ -60,7 +60,7 @@ combo_minutos.set("MM")
 combo_minutos.place(x=380, y=150)
 
 # Temática
-lbl_tematica = tk.Label(canvas, text="Temática del intercambio:", font=fuente, bg="#d6f5d6")
+lbl_tematica = tk.Label(canvas, text="Temática del intercambio:", font=fuente, bg="#2F372D", fg="white")
 lbl_tematica.place(x=50, y=200)
 tematicas = ["Sin temática", "Libros", "Manualidades", "Bufandas", "Tazas", "Suéteres"]
 combo_tematica = ttk.Combobox(canvas, values=tematicas, font=fuente, width=35)
@@ -68,7 +68,7 @@ combo_tematica.set("Seleccionar temática")
 combo_tematica.place(x=300, y=200)
 
 # Presupuesto
-lbl_presupuesto = tk.Label(canvas, text="Presupuesto (mín - máx):", font=fuente, bg="#d6f5d6")
+lbl_presupuesto = tk.Label(canvas, text="Presupuesto (mín - máx):", font=fuente, bg="#2F372D", fg="white")
 lbl_presupuesto.place(x=50, y=250)
 spin_presupuesto_min = tk.Spinbox(canvas, from_=50, to=1000, increment=50, width=10, font=fuente)
 spin_presupuesto_min.place(x=300, y=250)
@@ -78,16 +78,53 @@ spin_presupuesto_max.place(x=400, y=250)
 # Función para guardar la información
 def guardar_informacion():
     lugar = txt_lugar.get()
-    fecha = cal_fecha.get()
-    hora = f"{combo_horas.get()}:{combo_minutos.get()}"
     tematica = combo_tematica.get()
-    presupuesto_min = spin_presupuesto_min.get()
-    presupuesto_max = spin_presupuesto_max.get()
-
+    
     if not lugar or tematica == "Seleccionar temática":
         lbl_mensaje.config(text="Por favor, completa todos los campos obligatorios.", fg="red")
-    else:
+        ventana2.after(2500, lambda: lbl_mensaje.config(text="")) 
+        return
+
+    validar_presupuesto()
+    if lbl_mensaje.cget("text") == "":
         lbl_mensaje.config(text="¡Información guardada exitosamente!", fg="green")
+
+
+# Función para validar el presupuesto
+def validar_presupuesto():
+    try:
+        presupuesto_min = int(spin_presupuesto_min.get())
+        presupuesto_max = int(spin_presupuesto_max.get())
+
+        if presupuesto_min < 0 or presupuesto_max < 0:
+            raise ValueError("Los valores de presupuesto no pueden ser negativos.")
+        
+        if presupuesto_max < presupuesto_min:
+            lbl_mensaje.config(text="Error: Presupuesto máximo menor al mínimo.", fg="red")
+            spin_presupuesto_max.delete(0, "end")
+            spin_presupuesto_max.insert(0, str(presupuesto_min))
+            ventana2.after(2500, lambda: lbl_mensaje.config(text="")) 
+        else:
+            lbl_mensaje.config(text="", fg="green")
+    except ValueError:
+        lbl_mensaje.config(text="Error: Ingresa valores válidos.", fg="red")
+        ventana2.after(2500, lambda: lbl_mensaje.config(text="")) 
+
+spin_presupuesto_min.config(command=validar_presupuesto)
+spin_presupuesto_max.config(command=validar_presupuesto)
+
+# Presupuesto
+lbl_presupuesto = tk.Label(canvas, text="Presupuesto (mín - máx):", font=fuente, bg="#2F372D", fg="white")
+lbl_presupuesto.place(x=50, y=250)
+spin_presupuesto_min = tk.Spinbox(
+    canvas, from_=50, to=1000, increment=50, width=10, font=fuente, command=validar_presupuesto
+)
+spin_presupuesto_min.place(x=300, y=250)
+spin_presupuesto_max = tk.Spinbox(
+    canvas, from_=50, to=1000, increment=50, width=10, font=fuente, command=validar_presupuesto
+)
+spin_presupuesto_max.place(x=400, y=250)
+
 
 # Función para obtener los datos del intercambio
 def obtener_datos_intercambio():
@@ -142,7 +179,7 @@ btn_continuar2 = tk.Button(canvas, text="Continuar", font=fuente, bg="white", fg
 btn_continuar2.place(x=360, y=350)
 
 # Mensaje de estado ajustado
-lbl_mensaje = tk.Label(canvas, text="", font=fuente, bg="#d6f5d6")
+lbl_mensaje = tk.Label(canvas, text="", font=fuente, bg="#2F372D")
 lbl_mensaje.place(x=50, y=400)
 
 # Función para redimensionar la imagen al tamaño de la ventana
