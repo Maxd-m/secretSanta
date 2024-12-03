@@ -1,8 +1,12 @@
 import tkinter as tk
 import tkinter.font as tkFont
-from tkinter import ttk
+from tkinter import ttk, BooleanVar
 from tkcalendar import DateEntry  # pip install tkcalendar
 from PIL import Image, ImageTk
+
+informacion_guardada = tk.BooleanVar()
+informacion_guardada.set(False)  # Inicialmente en False
+
 def centrar_ventana(ventanacen, width, height):
     wtotal = ventanacen.winfo_screenwidth()
     htotal = ventanacen.winfo_screenheight()
@@ -75,6 +79,11 @@ spin_presupuesto_min.place(x=300, y=250)
 spin_presupuesto_max = tk.Spinbox(canvas, from_=50, to=1000, increment=50, width=10, font=fuente)
 spin_presupuesto_max.place(x=400, y=250)
 
+def habilitar_botones():
+    estado = "normal" if informacion_guardada.get() else "disabled"
+    btn_continuar2.config(state=estado)
+    btn_mostrar.config(state=estado)
+
 # Función para guardar la información
 def guardar_informacion():
     lugar = txt_lugar.get()
@@ -82,12 +91,16 @@ def guardar_informacion():
     
     if not lugar or tematica == "Seleccionar temática":
         lbl_mensaje.config(text="Por favor, completa todos los campos obligatorios.", fg="red")
-        ventana2.after(2500, lambda: lbl_mensaje.config(text="")) 
+        ventana2.after(2500, lambda: lbl_mensaje.config(text=""))
+        informacion_guardada.set(False)
+        habilitar_botones()
         return
 
     validar_presupuesto()
     if lbl_mensaje.cget("text") == "":
         lbl_mensaje.config(text="¡Información guardada exitosamente!", fg="green")
+        informacion_guardada.set(True)  # Marca como guardada
+        habilitar_botones()
 
 
 # Función para validar el presupuesto
@@ -172,11 +185,13 @@ def mostrar_registros():
 btn_guardar = tk.Button(canvas, text="Guardar", font=fuente, bg="white", fg="green", width=10, command=guardar_informacion)
 btn_guardar.place(x=300, y=300)
 
-btn_mostrar = tk.Button(canvas, text="Mostrar Registros", font=fuente, bg="white", fg="blue", width=15, command=mostrar_registros)
+btn_mostrar = tk.Button(canvas, text="Mostrar Registros", font=fuente, bg="white", fg="blue", width=15, state="disabled", command=mostrar_registros)
 btn_mostrar.place(x=420, y=300)
 
-btn_continuar2 = tk.Button(canvas, text="Continuar", font=fuente, bg="white", fg="purple", width=10)
+btn_continuar2 = tk.Button(canvas, text="Continuar", font=fuente, bg="white", fg="purple", width=10, state="disabled")
 btn_continuar2.place(x=360, y=350)
+
+habilitar_botones()
 
 # Mensaje de estado ajustado
 lbl_mensaje = tk.Label(canvas, text="", font=fuente, bg="#2F372D")
