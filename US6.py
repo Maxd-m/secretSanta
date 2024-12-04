@@ -112,6 +112,7 @@ style.configure("Treeview.Heading",
                 font=("Arial", 13, "bold"),
                 background="#4CAF50",
                 foreground="lime green")
+
 frame = Frame(ventana6)
 frame.pack(padx=10, pady=10)
 tree = Treeview(ventana6, columns=("Participante", "Regala a"), show='headings', height=5)

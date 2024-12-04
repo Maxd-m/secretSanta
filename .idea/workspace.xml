@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5783956-bebb-4c60-a8ed-279dded7a1fc" name="Changes" comment="Querick">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b5783956-bebb-4c60-a8ed-279dded7a1fc" name="Changes" comment="Rabolledo">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_11_2024_07_45_a_ m__[Changes]/carga.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_11_2024_07_45_a_ m__[Changes]/christmas.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_11_2024_07_45_a_ m__[Changes]/exit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_11_2024_07_45_a_ m__[Changes]/ruleta.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_11_2024_07_45_a_ m__[Changes]/venfinal.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/xmasSecretSanta.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/xmasSecretSanta.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/US1.py" beforeDir="false" afterPath="$PROJECT_DIR$/US1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/US2.py" beforeDir="false" afterPath="$PROJECT_DIR$/US2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/US5.py" beforeDir="false" afterPath="$PROJECT_DIR$/US5.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +56,7 @@
     &quot;Python.US1.executor&quot;: &quot;Run&quot;,
     &quot;Python.US2.executor&quot;: &quot;Run&quot;,
     &quot;Python.US5.executor&quot;: &quot;Run&quot;,
+    &quot;Python.US6.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -155,6 +155,14 @@
       <workItem from="1732238953672" duration="1243000" />
       <workItem from="1732240270697" duration="3008000" />
       <workItem from="1732282017106" duration="3193000" />
+      <workItem from="1732289249161" duration="43000" />
+      <workItem from="1732334498437" duration="306000" />
+      <workItem from="1732390150156" duration="7999000" />
+      <workItem from="1732421845567" duration="661000" />
+      <workItem from="1732727977773" duration="2451000" />
+      <workItem from="1732841833759" duration="30000" />
+      <workItem from="1732901609844" duration="966000" />
+      <workItem from="1733010807163" duration="16000" />
     </task>
     <task id="LOCAL-00001" summary="Querick">
       <option name="closed" value="true" />
@@ -164,7 +172,55 @@
       <option name="project" value="LOCAL" />
       <updated>1732110453901</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Rabolledo">
+      <option name="closed" value="true" />
+      <created>1732289280580</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1732289280580</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Rabolledo">
+      <option name="closed" value="true" />
+      <created>1732334778114</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1732334778115</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Rabolledo">
+      <option name="closed" value="true" />
+      <created>1732405131672</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732405131672</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Rabolledo">
+      <option name="closed" value="true" />
+      <created>1732422367069</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732422367069</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Rabolledo">
+      <option name="closed" value="true" />
+      <created>1732422396761</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1732422396761</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Rabolledo">
+      <option name="closed" value="true" />
+      <created>1732422426968</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732422426968</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,12 +228,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Querick" />
-    <option name="LAST_COMMIT_MESSAGE" value="Querick" />
+    <MESSAGE value="Rabolledo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rabolledo" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/secretSanta$main.coverage" NAME="main Coverage Results" MODIFIED="1732288533823" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/secretSanta$US5.coverage" NAME="US5 Coverage Results" MODIFIED="1732244465946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/secretSanta$main.coverage" NAME="main Coverage Results" MODIFIED="1732901610639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/secretSanta$US5.coverage" NAME="US5 Coverage Results" MODIFIED="1732391706729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/secretSanta$US1.coverage" NAME="US1 Coverage Results" MODIFIED="1732244428857" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/secretSanta$US2.coverage" NAME="US2 Coverage Results" MODIFIED="1732244425597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/secretSanta$US6.coverage" NAME="US6 Coverage Results" MODIFIED="1732392053852" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

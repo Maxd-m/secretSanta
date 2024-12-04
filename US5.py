@@ -83,10 +83,7 @@ def on_progress_complete(progress_bar, ventana55):
     progress_bar.stop()
     ventana55.destroy()
     ventana_final = Toplevel(ventana5)
-    ventana_final.grab_set_global()
-    ventana_final.grab_set()
     ventana_final.overrideredirect(True)
-    ventana_final.focus_set()
 
     centrar_ventana(ventana_final, 700, 400)
     canvasfinal = Canvas(ventana_final, width=700, height=400)
