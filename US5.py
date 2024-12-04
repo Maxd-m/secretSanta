@@ -81,7 +81,7 @@ def update_progress(progress_bar, ventana55):
 
 def on_progress_complete(progress_bar, ventana55):
     progress_bar.stop()
-    ventana55.destroy()
+    ventana55.destroy()#t
     ventana_final = Toplevel(ventana5)
     ventana_final.overrideredirect(True)
 
